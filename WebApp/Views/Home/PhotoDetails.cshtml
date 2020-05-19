@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "PhotoDetails";
+}
+
+
+@model WebApp.Models.PhotoDetails
+
+<h1>Photo Details</h1>
+
+<form>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Photo ID:</label>
+        <div class="col-sm-10">
+            @Model.response.photo.id
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Created At:</label>
+        <div class="col-sm-10">
+            @DateTimeOffset.FromUnixTimeSeconds(long.Parse(Model.response.photo.createdAt))
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Source:</label>
+        <div class="col-sm-10">
+            @Model.response.photo.source.name
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Source URL:</label>
+        <div class="col-sm-10">
+            @Model.response.photo.source.url
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">URL:</label>
+        <div class="col-sm-10">
+            <a href="@Model.response.photo.prefix@Model.response.photo.width@Model.response.photo.height@Model.response.photo.suffix">Foursquare Link</a>
+        </div>
+    </div>   
+
+</form>

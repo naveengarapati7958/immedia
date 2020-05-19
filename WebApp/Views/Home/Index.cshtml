@@ -1,0 +1,167 @@
+﻿@model WebApp.ViewModels.VenuesViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Welcome to immedia group</h1>
+
+<h4>Find Interesting Landmarks</h4>
+<hr />
+<div class="row">
+    <div class="col-md-7">
+        <form asp-controller="Home" method="post">
+
+
+            @*<div class="form-group row">
+                    <label class="col-md-1 col-form-label">Place:</label>
+                    <div class="col-md-5">
+                        <input class="form-control col-md-6" type="text" id="placename" name="placename" />
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group col-md-4 text-center">(OR)</div>
+                <div class="form-group row">
+                    <div class="col-md-6 row">
+                        <label class="col-md-3 col-form-label">Latitude:</label>
+                        <input type="text" id="lat" name="lat" class="form-control col-md-6" />
+                    </div>
+                    <div class="col-md-6 row">
+                        <label class="col-md-3 col-form-label">Longitude:</label>
+                        <input type="text" id="lng" name="lng" class="form-control col-md-6" />
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <input class="btn btn-info" id="btnGet" name="btnGet" value="Get Landmarks" type="submit" asp-action="GetVenuesByPlace" />
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label">Landmarks:</label>
+                    <div class="col-md-5">
+                        <select class="form-control" id="ddlVenues" asp-for="SelectedValue" asp-items="@Model.listItems">
+                        </select>
+                    </div>
+                </div>*@
+
+
+
+
+
+            <div class="form-group row">
+                @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+                <label for="placename" class="col-sm-2 col-form-label">Place:</label>
+                <div class="col-sm-10">
+
+                    @*<input data-val="true" data-val-required="Please enter the name" type="text" class="form-control" id="placename" name="placename" placeholder="eg. Durban">
+                        <span data-valmsg-for="placename" data-valmsg-replace="true" class="text-danger">Please enter place name</span>*@
+
+                    <input type="text" class="form-control" id="placename" name="placename" placeholder="eg. Durban">
+                </div>
+            </div>
+            <div class="form-group row">
+                <span class="col-sm-2 col-form-label"></span>
+                <div class="col-sm-10 text-center">
+                    (OR)
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lat" class="col-sm-2 col-form-label">Latitude:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lat" name="lat" placeholder="eg. -29.84687587107469">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lng" class="col-sm-2 col-form-label">Longitude:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lng" name="lng" placeholder="eg. 31.007350219458488">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <span class="col-sm-2 col-form-label"></span>
+                <div class="col-sm-10">
+                    <input class="btn btn-info" id="btnGet" name="btnGet" value="Get Landmarks" type="submit" asp-action="GetVenuesByPlace" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="ddlVenues" class="col-sm-2 col-form-label">Landmarks:</label>
+                <div class="col-sm-10">
+                    <select aria-describedby="HelpInline" class="form-control" id="ddlVenues" asp-for="SelectedValue" asp-items="@Model.listItems">
+                    </select>
+                    <small id="HelpInline" class="text-muted">
+                        Please select any venue to see the pictures
+                    </small>
+                </div>
+            </div>
+
+
+        </form>
+
+
+
+
+
+    </div>
+</div>
+@*@section Scripts
+    {
+        <partial name="_ValidationScriptsPartial" />
+    }*@
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+
+        $("input").focusout(function () {
+            if ($(this).val() == '') {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+            }
+            else {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+            }
+        });
+
+        $('#btnGet').click(function () {
+            var valid = false;
+            var place = $.trim($('#placename').val());
+            var lat = $.trim($('#lat').val());
+            var lng = $.trim($('#lng').val());
+
+            lat == '' ? $("#lat").addClass("is-invalid") : $("#lat").addClass("is-valid");
+            lng == '' ? $("#lng").addClass("is-invalid") : $("#lng").addClass("is-valid");
+            place == '' ? $("#placename").addClass("is-invalid") : $("#placename").addClass("is-valid");
+
+            if (place != '') {
+                valid = true;
+            }
+            else {
+                if (lat != '' && lng != '') {
+                    valid = true;
+                }
+            }
+            return valid;
+        });
+
+        $('#ddlVenues').change(function () {
+
+            var url = "/Home/Photos";
+            var id = $(this).val();
+            var name = $("#ddlVenues option:selected").text();
+            console.log(id + '----' + name);
+
+            if (id != null && id != '') {
+                window.location.href = url + '?id=' + id + '&n=' + name;
+            }
+
+            //$.get(url, { parameter: name }, function (data) {
+            //    alert(data);
+            //});
+        });
+
+
+    });
+
+</script>

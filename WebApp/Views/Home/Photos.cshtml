@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Photos";
+}
+<h1>Photos</h1>
+<h4>Click on the below image to get details</h4>
+<h6>Note: Foursquare free developer API gives only one image per request. In commercial version, multiple images are dislayed here.</h6>
+
+@model WebApp.ViewModels.PhotosViewModel
+
+
+<form asp-controller="Home" method="post">
+    <table>
+        @foreach (var item in Model.photoList)
+        {
+            <tr>
+                <td>
+                    <h3>@item.venuename</h3>
+                </td>
+            </tr>
+            <tr>
+                <td><a asp-action="PhotoDetails" asp-route-id="@item.id"><img width="500" height="400" src="@item.prefix@item.width@item.height@item.suffix" /></a></td>
+            </tr>
+        }
+    </table>
+</form>
